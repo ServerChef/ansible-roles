@@ -30,6 +30,18 @@
     depth: 1
     force: yes
 
+- name: Create SSL directory
+  file:
+    mode: 0700
+    path: /etc/nginx/ssl
+    state: directory
+
+- name: Generate strong unique Diffie-Hellman group.
+  command: openssl dhparam -out dhparams.pem 2048
+  args:
+    chdir: "{{ nginx_path }}/ssl"
+    creates: "{{ nginx_path }}/ssl/dhparams.pem"
+
 - name: Create nginx config
   template:
     src: nginx.conf.j2
