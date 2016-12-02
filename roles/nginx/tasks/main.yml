@@ -1,17 +1,17 @@
 ---
 - name: Add nginx upstream key to apt
   apt_key:
-    url: {{ nginx_key_url }}
+    url: "{{ nginx_key_url }}"
     state: present
 
 - name: Add nginx repo
   apt_repository:
-    repo: {{ item }}
+    repo: "{{ item }}"
     state: present
     update_cache: yes
   with_items:
-    - "deb http://nginx.org/packages/ubuntu/ jessie nginx"
-    - "deb-src http://nginx.org/packages/ubuntu/ jessie nginx"
+    - "deb http://nginx.org/packages/debian/ jessie nginx"
+    - "deb-src http://nginx.org/packages/debian/ jessie nginx"
 
 - name: Install nginx
   apt:
