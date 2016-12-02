@@ -13,6 +13,6 @@
     dest: /srv/www/{{ website }}/htdocs
     extra_opts: [ '--strip-components=1' ]
     remote_src: true
-    owner: www-data
-    group: www-data
+    owner: www
+    group: www
     mode: 0755
