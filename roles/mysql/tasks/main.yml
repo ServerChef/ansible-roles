@@ -28,6 +28,11 @@
     state: restarted
     enabled: true
 
+- name: Install mysql management tools
+  apt:
+    name: python-mysqldb
+    state: present
+
 - name: Set root user password
   mysql_user:
     name: root
@@ -35,6 +40,14 @@
     password: "{{ mysql_root_password }}"
     check_implicit_admin: yes
     state: present
+
+- name: Configure .my.cnf with root password
+  template:
+    src: my.cnf.j2
+    dest: ~/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
 
 - name: Delete annynomous MySQL server users
   mysql_user:
