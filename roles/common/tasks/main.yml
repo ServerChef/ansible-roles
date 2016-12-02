@@ -10,8 +10,9 @@
 
 - name: Install basic system dependencies
   apt:
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
+    force: true
   with_items:
     - curl
     - git-core
