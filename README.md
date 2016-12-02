@@ -15,12 +15,8 @@ Installs and configures memcached
 Installs and configures mysql (mariadb) and sets up databases
 ## nginx
 Installs and configures nginx for default host
-## php56-common
-Installs and configures php from distro upstream
 ## php56-fpm
 Installs and configures php-fpm from distro upstream
-## php70-common
-Installs and configures php7 from php.net repo
 ## php70-fpm
 Installs and configures php7-fpm from php.net repo
 ## sshd
