@@ -2,8 +2,8 @@
 - name: Create website root
   file:
     path: /srv/www/{{ website }}/htdocs
-    owner: www-data
-    group: www-data
+    owner: www
+    group: www
     mode: 0755
     state: directory
 

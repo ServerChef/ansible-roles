@@ -16,3 +16,14 @@
   with_items:
     - curl
     - git-core
+
+- name: Create group
+  group:
+    name: www
+    state: present
+
+- name: Create users
+  user:
+    name: www
+    group: www
+    state: present
