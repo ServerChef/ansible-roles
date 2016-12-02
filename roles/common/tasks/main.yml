@@ -1,0 +1,17 @@
+---
+- name: Update system
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: Set timezone to UTC
+  timezone:
+    name: Etc/UTC
+
+- name: Install basic system dependencies
+  apt:
+    name: {{ item }}
+    state: present
+  with_items:
+    - curl
+    - git-core
