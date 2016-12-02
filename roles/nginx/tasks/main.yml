@@ -30,6 +30,26 @@
     depth: 1
     force: yes
 
+- name: Create nginx config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+
+- name: Make default logs location writable
+  file:
+    path: /var/log/nginx
+    owner: www
+    group: www
+
+- name: Enable h5bp default site
+  file:
+    src: /etc/nginx/sites-available/{{ item }}
+    dest: /etc/nginx/sites-enabled/{{ item }}
+    state: link
+  with_items:
+    - no-default
+    - ssl.no-default
+
 - name: Restart and enable nginx server
   service:
     name: nginx
