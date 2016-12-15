@@ -1,0 +1,61 @@
+---
+- name: Add MariaDB upstream key to apt
+  apt_key:
+    url: "{{ mariadb_key_url }}"
+    state: present
+
+- name: Add MariaDB repo
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+    - "deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/debian jessie main"
+    - "deb-src http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/debian jessie main"
+
+- name: Install MariaDB mysql client
+  apt:
+    name: mariadb-client
+    state: present
+
+- name: Install MariaDB server
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Restart and enable MariaDB server
+  service:
+    name: mysql
+    state: restarted
+    enabled: true
+
+- name: Install mysql management tools
+  apt:
+    name: python-mysqldb
+    state: present
+
+- name: Set root user password
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    state: present
+
+- name: Configure .my.cnf with root password
+  template:
+    src: my.cnf.j2
+    dest: ~/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Delete annynomous MySQL server users
+  mysql_user:
+    user: ""
+    host: localhost
+    state: absent
+
+- name: Remove test database
+  mysql_db:
+    name: test
+    state: absent

@@ -1,0 +1,5 @@
+---
+mariadb_key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCBCB082A1BB943DB
+
+## This should be configured dynamically
+mysql_root_password: supersecret
