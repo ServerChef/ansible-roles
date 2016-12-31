@@ -1,21 +1,17 @@
 ---
-- name: Add nginx upstream key to apt
-  apt_key:
-    url: "{{ nginx_key_url }}"
-    state: present
-
-- name: Add nginx repo
+- name: Add nginx-http2 and backports
   apt_repository:
     repo: "{{ item }}"
     state: present
     update_cache: yes
   with_items:
-    - "deb http://nginx.org/packages/debian/ jessie nginx"
-    - "deb-src http://nginx.org/packages/debian/ jessie nginx"
+    - "deb http://ftp.debian.org/debian jessie-backports main"
+    - "deb http://packages.dotdeb.org jessie-nginx-http2 all"
 
 - name: Install nginx
   apt:
     name: nginx
+    default_release: jessie-backports
     state: present
 
 - name: Restart and enable nginx server
