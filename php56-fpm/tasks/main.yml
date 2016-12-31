@@ -1,5 +1,5 @@
 ---
-- name: Install PHP
+- name: Install PHP 5.6
   apt:
     name: "{{ item }}"
     state: present

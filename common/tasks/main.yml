@@ -27,3 +27,18 @@
     name: www
     group: www
     state: present
+
+- name: Add dotdeb key to apt
+  apt_key:
+    url: "{{ dotdeb_key_url }}"
+    state: present
+
+- name: Add dotdeb repo
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "deb http://packages.dotdeb.org jessie all"
+    - "deb-src http://packages.dotdeb.org jessie all"
+
