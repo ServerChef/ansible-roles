@@ -82,17 +82,3 @@ Required for: Staging, Production
 Installs wordpress in given location
 
 Required for: Development, Staging, Production
-
-## wordpress-nginx
-Configures nginx to use with WordPress
-
-Status: TODO
-
-Required for: Development, Staging, Production
-
-## wordpress-apache
-Configures apache to use with apache
-
-Status: TODO
-
-Required for: Development, Staging, Production
