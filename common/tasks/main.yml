@@ -41,3 +41,12 @@
     name: www
     group: www
     state: present
+
+- name: Create directory for serverchef binaries
+  file:
+    mode: 0755
+    path: "{{ serverchef_path }}/{{ item }}"
+    state: directory
+  with_items:
+    - vendor
+    - bin

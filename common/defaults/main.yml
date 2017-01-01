@@ -1,1 +1,4 @@
+---
 ntp_timezone: Etc/UTC
+serverchef_path: /serverchef/
+dotdeb_key_url: https://www.dotdeb.org/dotdeb.gpg
