@@ -1,0 +1,39 @@
+---
+- name: Create mailhog install directory
+  file:
+    path: "{{ install_path }}/{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  with_items:
+    - mailhog/bin
+
+- name: Download mailhog binary
+  get_url:
+    url: https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+    dest: "{{ install_path }}/mailhog/bin/mailhog"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Download mhsendmail binary
+  get_url:
+    url: https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
+    dest: "{{ install_path }}/mailhog/bin/mhsendmail"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy mailhog systemd unit files into place
+  template:
+    src: mailhog.unit.j2
+    dest: /etc/systemd/system/mailhog.service
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Start and enable mailhog
+  service:
+    name: mailhog
+    state: started
+    enabled: yes
