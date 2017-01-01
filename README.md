@@ -36,6 +36,13 @@ Status: TODO
 
 Required for: Development, Staging, Production
 
+## mailhog
+Installs and configures mailhog to use with PHP
+
+Status: TODO
+
+Required for: Development, Staging
+
 ## mysql
 Installs and configures mysql (mariadb) and sets up databases
 
