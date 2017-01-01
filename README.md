@@ -58,14 +58,14 @@ Status: Available
 Required for: Development, Staging, Production
 
 ## php56-fpm
-Installs and configures php-fpm from distro upstream
+Installs and configures php-fpm from dotdeb repo
 
 Status: Available
 
 Required for: Development, Staging, Production
 
 ## php70-fpm
-Installs and configures php7-fpm from php.net repo
+Installs and configures php7-fpm from dotdeb repo
 
 Status: Available
 
