@@ -10,6 +10,7 @@
     - htdocs
     - configs
     - database
+    - logs
 
 - name: Create directory for WordPress download
   file:
@@ -29,3 +30,16 @@
 
 - name: Extract WordPress
   command: /bin/tar -xzf "{{ wordpress_location }}/latest.tar.gz" -C "{{ website_location }}/{{ website }}/htdocs" --strip-components=1
+
+- name: Copy nginx config for WordPress site
+  template:
+    src: nginx-only.conf.j2
+    dest: "{{ nginx_path }}/sites-available/{{ website }}"
+
+- name: Enable WordPress site
+  file:
+    src: "{{ nginx_path }}/sites-available/{{ website }}"
+    dest: "{{ nginx_path }}/sites-enabled/{{ website }}"
+    state: link
+  notify: reload nginx
+

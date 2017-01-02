@@ -1,3 +1,4 @@
 ---
 website_location: /serverchef/websites
 wordpress_location: /serverchef/vendor/wordpress
+nginx_path: /etc/nginx
