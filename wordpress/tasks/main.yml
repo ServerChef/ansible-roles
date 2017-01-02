@@ -1,18 +1,38 @@
 ---
 - name: Create website root
   file:
-    path: /srv/www/{{ website }}/htdocs
+    path: "{{ website_location }}/{{ website }}/{{ item }}"
     owner: www
     group: www
     mode: 0755
     state: directory
+  with_items:
+    - htdocs
+    - configs
+    - database
 
-- name: Download and extract WordPress
+- name: Create directory for WordPress download
+  file:
+    path: "{{ wordpress_location }}"
+    state: directory
+    owner: www
+    group: www
+    mode: 0755
+
+- name: Download WordPress
+  get_url:
+    url: https://wordpress.org/latest.tar.gz
+    dest: "{{ wordpress_location }}/latest.tar.gz"
+    owner: www
+    group: www
+    mode: 0755
+
+- name: Extract WordPress
   unarchive:
-    src: https://wordpress.org/latest.tar.gz
-    dest: /srv/www/{{ website }}/htdocs
+    src: "{{ wordpress_location }}/latest.tar.gz"
+    dest: "{{ website_location }}/{{ website }}/htdocs"
     extra_opts: [ '--strip-components=1' ]
-    remote_src: true
+    creates: no
     owner: www
     group: www
     mode: 0755
