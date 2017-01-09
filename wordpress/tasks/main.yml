@@ -2,8 +2,8 @@
 - name: Create website root
   file:
     path: "{{ website_location }}/{{ website }}/{{ item }}"
-    owner: www
-    group: www
+    owner: www-data
+    group: www-data
     mode: 0755
     state: directory
   with_items:
@@ -16,16 +16,16 @@
   file:
     path: "{{ wordpress_location }}"
     state: directory
-    owner: www
-    group: www
+    owner: www-data
+    group: www-data
     mode: 0755
 
 - name: Download WordPress
   get_url:
     url: https://wordpress.org/latest.tar.gz
     dest: "{{ wordpress_location }}/latest.tar.gz"
-    owner: www
-    group: www
+    owner: www-data
+    group: www-data
     mode: 0755
 
 - name: Extract WordPress
