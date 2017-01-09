@@ -37,7 +37,7 @@
   mysql_user:
     name: root
     host: localhost
-    password: "{{ lookup('password', playbook_dir + '/passwords chars=ascii_letters') }}"
+    password: "{{ lookup('password', playbook_dir + '/passwords/mysql chars=ascii_letters') }}"
     check_implicit_admin: yes
     state: present
 
