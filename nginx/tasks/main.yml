@@ -51,8 +51,8 @@
 - name: Make default logs location writable
   file:
     path: /var/log/nginx
-    owner: www
-    group: www
+    owner: www-data
+    group: www-data
 
 - name: Enable h5bp default site
   file:
