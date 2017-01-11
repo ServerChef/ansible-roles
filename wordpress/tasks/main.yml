@@ -14,22 +14,44 @@
 
 - name: Create directory for WordPress download
   file:
-    path: "{{ wordpress_location }}"
+    path: "{{ website_location }}"
     state: directory
     owner: www-data
     group: www-data
     mode: 0755
 
 - name: Download WordPress
-  get_url:
-    url: https://wordpress.org/latest.tar.gz
-    dest: "{{ wordpress_location }}/latest.tar.gz"
-    owner: www-data
-    group: www-data
-    mode: 0755
+  command: wp core download
+          --allow-root
+          --force
+          --path="{{ website_location }}/{{ website }}/htdocs"
+  args:
+    chdir: "{{ website_location }}/{{ website }}/htdocs"
 
-- name: Extract WordPress
-  command: /bin/tar -xzf "{{ wordpress_location }}/latest.tar.gz" -C "{{ website_location }}/{{ website }}/htdocs" --strip-components=1
+- name: Create database for WordPress install
+  mysql_db:
+    name: "{{ website | replace('.', '-') }}"
+    state: present
+
+- name: Create WordPress configs
+  command: wp core config
+          --allow-root
+          --dbname="{{ website | replace('.', '-') }}"
+          --dbuser=root
+          --dbpass="{{ lookup('password', playbook_dir + '/passwords/mysql chars=ascii_letters') }}"
+          --path="{{ website_location }}/{{ website }}/htdocs"
+
+- name: Install WordPress
+  command: wp core install
+          --allow-root
+          --url="{{ website }}"
+          --title="{{ title | default('WordPress with ServerChef') }}"
+          --admin_user=serverchef
+          --admin_password="{{ lookup('password', playbook_dir + '/passwords/' + website) }}"
+          --admin_email="admin@{{ website }}"
+          --path="{{ website_location }}/{{ website }}/htdocs"
+  args:
+    chdir: "{{ website_location }}/{{ website }}/htdocs"
 
 - name: Copy nginx config for WordPress site
   template:
@@ -42,4 +64,3 @@
     dest: "{{ nginx_path }}/sites-enabled/{{ website }}"
     state: link
   notify: reload nginx
-
