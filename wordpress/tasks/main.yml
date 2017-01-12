@@ -33,6 +33,12 @@
     name: "{{ website | replace('.', '-') }}"
     state: present
 
+- name: Check if WordPress is already configured
+  command: wp core is-installed --allow-root
+  register: config_status
+  args:
+    chdir: "{{ website_location }}/{{ website }}/htdocs"
+
 - name: Create WordPress configs
   command: wp core config
           --allow-root
@@ -40,6 +46,7 @@
           --dbuser=root
           --dbpass="{{ lookup('password', playbook_dir + '/passwords/mysql chars=ascii_letters') }}"
           --path="{{ website_location }}/{{ website }}/htdocs"
+  when: config_status == 1
 
 - name: Install WordPress
   command: wp core install
@@ -52,6 +59,7 @@
           --path="{{ website_location }}/{{ website }}/htdocs"
   args:
     chdir: "{{ website_location }}/{{ website }}/htdocs"
+  when: config_status == 1
 
 - name: Copy nginx config for WordPress site
   template:
