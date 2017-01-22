@@ -42,6 +42,7 @@
   with_items:
     - curl
     - git-core
+    - build-essential
 
 - name: Create group
   group:
